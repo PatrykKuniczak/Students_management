@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from math import ceil
 
 
@@ -26,9 +26,14 @@ class Student:
 
         self.student_list.update({self.journal_number: self.student_date})
 
-    def print_a_student(self):
-        for elem in self.student_date:
-            print(f"Nr. {self.journal_number}:", elem)
+        return self.student_list
+
+    # def print_a_student(self):
+    #     for elem in self.student_date:
+    #         print(f"Nr. {self.journal_number}: {elem}")
+
+
+student_list = {}
 
 
 def make_a_new_student():
@@ -37,7 +42,7 @@ def make_a_new_student():
             new_student_first_name = input("Podaj imię: ").strip()
             new_student_last_name = input("Podaj nazwisko: ").strip()
             new_student_birthday = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
-            datetime.datetime.strptime(new_student_birthday, '%d.%m.%Y')
+            datetime.strptime(new_student_birthday, '%d.%m.%Y')
             new_student_journal_number = int(input("Podaj numer do dziennika: "))
             break
         except ValueError:
@@ -45,18 +50,15 @@ def make_a_new_student():
 
     student = Student(new_student_first_name, new_student_last_name,
                       new_student_birthday, new_student_journal_number)
-    student.join_a_student()
-    student.print_a_student()
+    list_element = student.join_a_student()
+    student_list.update(list_element)
 
 
-# while True:
-#     question_about_add = input("Czy chcesz dodać studenta: ").strip().lower()
-#     if question_about_add == "tak":
-#         make_a_new_student()
-#     elif question_about_add == "nie":
-#         break
+while True:
+    question_about_add = input("Czy chcesz dodać studenta: ").strip().lower()
+    if question_about_add == "tak":
+        make_a_new_student()
+    elif question_about_add == "nie":
+        break
 
-make_a_new_student()
-
-print(f"Oto lista studentów: {Student.student_list}")
-      # TU POTRZEBUJĘ WZIAĆ TE LISTE STUDENTÓW,JAK JĄ WYCIĄGNĄC Z KLASY?
+print(f"Oto lista studentów: {student_list}")
