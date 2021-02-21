@@ -32,13 +32,11 @@ class Student:
             print(f"{self.journal_number}:", elem)
 
 
-janko = Student("Janek", "Obibok", "18.12.2002", 1, 18)
-franko = Student("Franek", "Giżioletti", "15.02.2000", 2, 20)
-basia = Student("Basia", "Kowalska", "12.04.2001", 3, 19)
-
-janko.join_a_student()
-janko.print_a_student()
-franko.join_a_student()
-franko.print_a_student()
-basia.join_a_student()
-basia.print_a_student()
+question = input("Czy chcesz dodać nowego studenta?: ")
+if question.lower() == "tak":
+    new_student_first_name = input("Podaj imię: ")
+    new_student_last_name = input("Podaj nazwisko: ")
+    new_student_age = input("Podaj wiek: ")
+    new_student_birthday = input("Podaj datę urodzenia: ")
+    # TU TERAZ KMINIE JAK ZROBIĆ,ABY ZA KAŻDYM OBIEGIEM PĘTLI TWORZYŁ SIĘ NOWY OBIEKT,CZYLI NOWY STUDENT,ŻEBY BYŁO
+    # ŁATWIEJ MI SIĘ PÓŹNIEJ DO TEGO ODNOSIĆ,BĘDE NA CAŁYM OBIEKCIE OPEROWAŁ
