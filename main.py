@@ -49,4 +49,14 @@ def make_a_new_student():
     student.print_a_student()
 
 
+# while True:
+#     question_about_add = input("Czy chcesz dodać studenta: ").strip().lower()
+#     if question_about_add == "tak":
+#         make_a_new_student()
+#     elif question_about_add == "nie":
+#         break
+
 make_a_new_student()
+
+print(f"Oto lista studentów: {Student.student_list}")
+      # TU POTRZEBUJĘ WZIAĆ TE LISTE STUDENTÓW,JAK JĄ WYCIĄGNĄC Z KLASY?
