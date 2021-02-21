@@ -24,10 +24,6 @@ class Student:
                                       f"Nazwisko:{self.last_name}, Data Urodzenia:{self.birthday}")
         return self.student_date_list
 
-    # def print_a_student(self):
-    #     for elem in self.student_date:
-    #         print(f"Nr. {self.journal_number}: {elem}")
-
 
 student_dict = {}
 
