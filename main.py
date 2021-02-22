@@ -3,7 +3,7 @@ from math import ceil
 
 
 class Student:
-    def __init__(self, first_name, last_name, birthday):
+    def __init__(self, first_name: str, last_name: str, birthday: str) -> None:
         self.birthday = birthday
         self.first_name = first_name
         self.last_name = last_name
@@ -11,49 +11,77 @@ class Student:
         self.semester = 1
         self.student_data_list = []
 
-    def go_high(self):
-        self.semester += 1
+    def change_a_semester(self, mode: str) -> None:
+        if mode.lower() == 'high':
+            self.semester += 1
+        elif mode.lower() == 'low':
+            self.semester -= 1
 
-    def go_down(self):
-        self.semester -= 1
-
-    def get_year(self):
+    def get_year(self) -> int:
         return ceil(self.semester / 2)
 
-    def make_a_student(self):
-        self.student_data_list.append(f"Imię:{self.first_name}, "
-                                      f"Nazwisko:{self.last_name}, Data Urodzenia:{self.birthday}")
-        return self.student_data_list
+    def __str__(self) -> str:
+        return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthday}."
 
 
 student_dict = {}
 
 
-def data_for_new_student(student_journal_index):
+def date_valid(date: str) -> bool:
+    try:
+        datetime.strptime(date, '%d.%m.%Y')
+        return True
+    except ValueError:
+        return False
+
+
+def data_correctness(first_name, last_name, birthday) -> bool:
+    return (isinstance(first_name, str)
+            and isinstance(last_name, str)
+            and date_valid(birthday))
+
+
+def student_add(index: int) -> None:
+    new_student_first_name = input("Podaj imię: ").strip()
+    new_student_last_name = input("Podaj nazwisko: ").strip()
+    new_student_birthday = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
+
+    if data_correctness(new_student_first_name,
+                        new_student_last_name,
+                        new_student_birthday):
+
+        student = Student(new_student_first_name,
+                          new_student_last_name,
+                          new_student_birthday)
+
+        student_dict.update({index: student})
+
+        print("Pomyślnie dodano nowego studenta.")
+    else:
+        print("Któraś z podanych wartości jest nieprawidłowa!\n"
+              "Nie udało się stworzyć studenta!")
+
+
+def main() -> None:
+    student_index = 0
     while True:
-        try:
-            new_student_first_name = input("Podaj imię: ").strip()
-            new_student_last_name = input("Podaj nazwisko: ").strip()
-            new_student_birthday = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
-            datetime.strptime(new_student_birthday, '%d.%m.%Y')
+        question = input("Czy chcesz dodać studenta?[Tak/Nie]: ").strip().lower()
+        if question == "tak":
+            student_index += 1
+            student_add(student_index)
+            continue
+        elif question == "nie":
             break
-        except ValueError:
-            print("Któraś z podanych warości jest nieprawidłowa!")
+        else:
+            print("Wpisz 'Tak/Nie'")
 
-    student = Student(new_student_first_name, new_student_last_name,
-                      new_student_birthday)
-    list_element = student.make_a_student()
-    student_dict[student_journal_index] = list_element
+    student_dict_formatted = {k: str(v) for k, v in student_dict.items()}
+
+    if student_dict_formatted:
+        print("Oto lista studentów:")
+        for k, v in student_dict_formatted.items():
+            print(f"{k}.{v}")
 
 
-student_index = 0
-
-while True:
-    student_index += 1
-    question_about_add = input("Czy chcesz dodać studenta[Tak/Nie]: ").strip().lower()
-    if question_about_add == "tak":
-        data_for_new_student(student_index)
-    elif question_about_add == "nie":
-        break
-
-print(f"Oto lista studentów: {student_dict}")
+if __name__ == '__main__':
+    main()
