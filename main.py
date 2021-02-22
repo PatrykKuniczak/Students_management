@@ -1,10 +1,11 @@
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from math import ceil
 
 
 class Student:
-    def __init__(self, first_name: str, last_name: str, birthday: str) -> None:
-        self.birthday = birthday
+    def __init__(self, first_name: str, last_name: str, birthdate: str) -> None:
+        self.birthdate = birthdate
         self.first_name = first_name
         self.last_name = last_name
 
@@ -21,7 +22,7 @@ class Student:
         return ceil(self.semester / 2)
 
     def __str__(self) -> str:
-        return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthday}."
+        return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthdate}."
 
 
 student_dict = {}
@@ -29,30 +30,33 @@ student_dict = {}
 
 def date_valid(date: str) -> bool:
     try:
-        datetime.strptime(date, '%d.%m.%Y')
-        return True
+        datetime_get = datetime.strptime(date, '%d.%m.%Y')
+        actual_date = datetime.now()
+        time_difference = relativedelta(actual_date, datetime_get)
+        if time_difference.years >= 18 and datetime_get:
+            return True
     except ValueError:
         return False
 
 
-def data_correctness(first_name, last_name, birthday) -> bool:
+def data_correctness(first_name, last_name, birthdate) -> bool:
     return (isinstance(first_name, str)
             and isinstance(last_name, str)
-            and date_valid(birthday))
+            and date_valid(birthdate))
 
 
 def student_add(index: int) -> None:
     new_student_first_name = input("Podaj imię: ").strip()
     new_student_last_name = input("Podaj nazwisko: ").strip()
-    new_student_birthday = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
+    new_student_birthdate = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
 
     if data_correctness(new_student_first_name,
                         new_student_last_name,
-                        new_student_birthday):
+                        new_student_birthdate):
 
         student = Student(new_student_first_name,
                           new_student_last_name,
-                          new_student_birthday)
+                          new_student_birthdate)
 
         student_dict.update({index: student})
 
