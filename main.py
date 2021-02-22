@@ -1,5 +1,4 @@
 from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from math import ceil
 
 
@@ -22,7 +21,7 @@ class Student:
         return ceil(self.semester / 2)
 
     def __str__(self) -> str:
-        return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthdate}."
+        return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthdate}"
 
 
 student_dict = {}
@@ -32,8 +31,9 @@ def date_valid(date: str) -> bool:
     try:
         datetime_get = datetime.strptime(date, '%d.%m.%Y')
         actual_date = datetime.now()
-        time_difference = relativedelta(actual_date, datetime_get)
-        if time_difference.years >= 18 and datetime_get:
+        age = actual_date.year - datetime_get.year - \
+              ((actual_date.month, actual_date.day) < (datetime_get.month, datetime_get.day))
+        if age >= 18 and datetime_get:
             return True
     except ValueError:
         return False
