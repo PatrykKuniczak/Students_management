@@ -22,13 +22,12 @@ def main() -> None:
         for k, v in student_dict_formatted.items():
             print(f"{k}.{v}")
 
-    with open("students.json", "w", encoding="utf-8") as student_date_list,\
-            open("students.json", "r", encoding="utf-8") as student_date_list_r:
-
-        json.dump(student_dict_formatted, student_date_list)
-        student_date_list.close()
-        print(json.load(student_date_list_r))
+    # with open("students.json", "r", encoding="utf-8") as student_date_list:
+    #
+    #     print(student_date_list.read())
 
 
 if __name__ == '__main__':
     main()
+
+    # 18.11.2000
