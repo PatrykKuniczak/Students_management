@@ -32,7 +32,9 @@ def date_valid(date: str) -> bool:
         datetime_get = datetime.strptime(date, '%d.%m.%Y')
         actual_date = datetime.now()
         age = actual_date.year - datetime_get.year - \
-              ((actual_date.month, actual_date.day) < (datetime_get.month, datetime_get.day))
+              ((actual_date.month, actual_date.day) <
+               (datetime_get.month, datetime_get.day))
+
         if age >= 18 and datetime_get:
             return True
     except ValueError:
@@ -62,5 +64,13 @@ def student_add(index: int) -> None:
 
         print("Pomyślnie dodano nowego studenta.")
     else:
-        print("Któraś z podanych wartości jest nieprawidłowa!\n"
-              "Nie udało się stworzyć studenta!")
+        if not new_student_first_name:
+            print("Imię studenta jest błędne!")
+
+        if not new_student_last_name:
+            print("Nazwisko studenta jest błędne!")
+
+        if not new_student_birthdate:
+            print("Student musi posiadać 18 lat!")
+
+        print("Nie udało się stworzyć studenta!")

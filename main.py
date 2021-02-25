@@ -1,5 +1,4 @@
 from function import *
-import json
 
 
 def main() -> None:
@@ -22,12 +21,6 @@ def main() -> None:
         for k, v in student_dict_formatted.items():
             print(f"{k}.{v}")
 
-    # with open("students.json", "r", encoding="utf-8") as student_date_list:
-    #
-    #     print(student_date_list.read())
-
 
 if __name__ == '__main__':
     main()
-
-    # 18.11.2000
