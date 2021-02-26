@@ -1,19 +1,9 @@
 from function import *
 
+# TODO: PRZEROBIĆ CAŁY CORE NA WYBÓR CZYNNOŚCI DO WYKONANIA[KLASA,STUDENT I W NICH EDYCJA ORAZ DODAJ I USUN]
 
 def main() -> None:
-    student_index = 1
-    while True:
-        question = input("Czy chcesz dodać studenta?[Tak/Nie]: ").strip().lower()
-        if question == "tak":
-            student_add(student_index)
-            student_index += 1
-            continue
-        elif question == "nie":
-            break
-        else:
-            print("Wpisz 'Tak/Nie'")
-
+    pass
 
 if __name__ == '__main__':
     main()

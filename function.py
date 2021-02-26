@@ -1,7 +1,7 @@
 from datetime import datetime
 from math import ceil
 import re
-
+# TODO: DODAĆ WALIDACJĘ DO KLASY
 class Student:
     def __init__(self, first_name: str, last_name: str, birthdate: str) -> None:
         self.birthdate = birthdate
@@ -23,10 +23,7 @@ class Student:
     def __str__(self) -> str:
         return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthdate}"
 
-
-
 student_dict = {}
-
 
 def date_valid(date: str) -> bool:
     try:
@@ -40,7 +37,6 @@ def date_valid(date: str) -> bool:
             return True
     except ValueError:
         return False
-
 
 def data_correctness(first_name, last_name, birthdate) -> bool:
 
