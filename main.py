@@ -2,25 +2,19 @@ from function import *
 
 
 def main() -> None:
-    student_index = 0
+    student_index = 1
     while True:
         question = input("Czy chcesz dodać studenta?[Tak/Nie]: ").strip().lower()
         if question == "tak":
-            student_index += 1
             student_add(student_index)
+            student_index += 1
             continue
         elif question == "nie":
             break
         else:
             print("Wpisz 'Tak/Nie'")
 
-    student_dict_formatted = {k: str(v) for k, v in student_dict.items()}
-
-    if student_dict_formatted:
-        print("Oto lista studentów:")
-        for k, v in student_dict_formatted.items():
-            print(f"{k}.{v}")
-
+    students_list()
 
 if __name__ == '__main__':
     main()

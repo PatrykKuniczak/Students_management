@@ -1,6 +1,6 @@
 from datetime import datetime
 from math import ceil
-
+import re
 
 class Student:
     def __init__(self, first_name: str, last_name: str, birthdate: str) -> None:
@@ -24,6 +24,7 @@ class Student:
         return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthdate}"
 
 
+
 student_dict = {}
 
 
@@ -42,14 +43,28 @@ def date_valid(date: str) -> bool:
 
 
 def data_correctness(first_name, last_name, birthdate) -> bool:
-    return (isinstance(first_name, str)
-            and isinstance(last_name, str)
-            and date_valid(birthdate))
 
+    if re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", first_name) \
+            and re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", last_name)\
+            and date_valid(birthdate):
+
+        return True
+
+    else:
+        if not re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", first_name):
+            print("Imię studenta jest błędne!")
+
+        if not re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", last_name):
+            print("Nazwisko studenta jest błędne!")
+
+        if not date_valid(birthdate):
+            print("Student musi posiadać 18 lat!")
+
+        return False
 
 def student_add(index: int) -> None:
-    new_student_first_name = input("Podaj imię: ").strip()
-    new_student_last_name = input("Podaj nazwisko: ").strip()
+    new_student_first_name = input("Podaj imię(imiona): ")
+    new_student_last_name = input("Podaj nazwisko: ")
     new_student_birthdate = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
 
     if data_correctness(new_student_first_name,
@@ -64,13 +79,21 @@ def student_add(index: int) -> None:
 
         print("Pomyślnie dodano nowego studenta.")
     else:
-        if not new_student_first_name:
-            print("Imię studenta jest błędne!")
-
-        if not new_student_last_name:
-            print("Nazwisko studenta jest błędne!")
-
-        if not new_student_birthdate:
-            print("Student musi posiadać 18 lat!")
-
         print("Nie udało się stworzyć studenta!")
+
+def students_list():
+    student_dict_formatted = {k: str(v) for k, v in student_dict.items()}
+
+    if student_dict_formatted:
+        print("Oto lista studentów:")
+        for k, v in student_dict_formatted.items():
+            print(f"{k}.{v}")
+
+def student_delete() -> None:
+    student_del = input("Podaj numer studenta,którego chcesz usunąć: ").lower().strip()
+    student_del_instance = isinstance(student_del, int)
+    if student_del_instance:
+        if student_del in student_dict.keys():
+            student_dict.pop(student_del)
+    else:
+        print("Wpisałeś błędną wartość,wpisz numer studenta z listy")
