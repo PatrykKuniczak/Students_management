@@ -14,7 +14,6 @@ def main() -> None:
         else:
             print("Wpisz 'Tak/Nie'")
 
-    students_list()
 
 if __name__ == '__main__':
     main()

@@ -75,7 +75,7 @@ def student_add(index: int) -> None:
                           new_student_last_name,
                           new_student_birthdate)
 
-        student_dict.update({index: student})
+        student_dict[index] = student
 
         print("Pomyślnie dodano nowego studenta.")
     else:
@@ -90,10 +90,10 @@ def students_list():
             print(f"{k}.{v}")
 
 def student_delete() -> None:
-    student_del = input("Podaj numer studenta,którego chcesz usunąć: ").lower().strip()
-    student_del_instance = isinstance(student_del, int)
-    if student_del_instance:
+    try:
+        student_del = int(input("Podaj numer studenta,którego chcesz usunąć: "))
         if student_del in student_dict.keys():
             student_dict.pop(student_del)
-    else:
+
+    except ValueError:
         print("Wpisałeś błędną wartość,wpisz numer studenta z listy")
