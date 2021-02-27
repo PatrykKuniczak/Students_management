@@ -1,6 +1,6 @@
 from datetime import datetime
 from math import ceil
-import re
+
 # TODO: DODAĆ WALIDACJĘ DO KLASY
 class Student:
     def __init__(self, first_name: str, last_name: str, birthdate: str) -> None:
@@ -40,25 +40,25 @@ def date_valid(date: str) -> bool:
 
 def data_correctness(first_name, last_name, birthdate) -> bool:
 
-    if re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", first_name) \
-            and re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", last_name)\
-            and date_valid(birthdate):
-
+    if first_name.istitle() and last_name.istitle() and date_valid(birthdate):
         return True
 
     else:
-        if not re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", first_name):
-            print("Imię studenta jest błędne!")
+        if not first_name.istitle():
+            print("Imię studenta jest błędne!\n"
+                  "Wzór:[Patryk / Patryk-Łukasz]")
 
-        if not re.match(r"^[A-Za-z]{2,}|[A-Za-z]\s[A-Za-z]{2,}$", last_name):
-            print("Nazwisko studenta jest błędne!")
+        if not last_name.istitle():
+            print("Nazwisko studenta jest błędne!\n"
+                  "Wzór[Kowalski/ Kowalski-Malinowski}")
 
         if not date_valid(birthdate):
             print("Student musi posiadać 18 lat!")
 
         return False
 
-def student_add(index: int) -> None:
+index = 0
+def student_add() -> int:
     new_student_first_name = input("Podaj imię(imiona): ")
     new_student_last_name = input("Podaj nazwisko: ")
     new_student_birthdate = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
@@ -66,7 +66,8 @@ def student_add(index: int) -> None:
     if data_correctness(new_student_first_name,
                         new_student_last_name,
                         new_student_birthdate):
-
+        global index
+        index += 1
         student = Student(new_student_first_name,
                           new_student_last_name,
                           new_student_birthdate)
@@ -74,10 +75,11 @@ def student_add(index: int) -> None:
         student_dict[index] = student
 
         print("Pomyślnie dodano nowego studenta.")
+        return index
     else:
         print("Nie udało się stworzyć studenta!")
 
-def students_list():
+def display_student_list():
     student_dict_formatted = {k: str(v) for k, v in student_dict.items()}
 
     if student_dict_formatted:
