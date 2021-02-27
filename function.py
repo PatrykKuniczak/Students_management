@@ -1,7 +1,6 @@
 from datetime import datetime
 from math import ceil
 
-# TODO: DODAĆ WALIDACJĘ DO KLASY
 class Student:
     def __init__(self, first_name: str, last_name: str, birthdate: str) -> None:
         self.birthdate = birthdate
@@ -10,6 +9,40 @@ class Student:
 
         self.semester = 1
         self.student_data_list = []
+
+    @classmethod
+    def date_valid(cls, date: str) -> bool:
+        try:
+            datetime_get = datetime.strptime(date, '%d.%m.%Y')
+            actual_date = datetime.now()
+            age = actual_date.year - datetime_get.year - \
+                  ((actual_date.month, actual_date.day) <
+                   (datetime_get.month, datetime_get.day))
+
+            if age >= 18 and datetime_get:
+                return True
+        except ValueError:
+            return False
+
+    @classmethod
+    def data_correctness(cls, first_name, last_name, birthdate) -> bool:
+
+        if first_name.istitle() and last_name.istitle() and cls.date_valid(birthdate):
+            return True
+
+        else:
+            if not first_name.istitle():
+                print("Imię studenta jest błędne!\n"
+                      "Wzór:[Patryk / Patryk-Łukasz]")
+
+            if not last_name.istitle():
+                print("Nazwisko studenta jest błędne!\n"
+                      "Wzór[Kowalski/ Kowalski-Malinowski}")
+
+            if not cls.date_valid(birthdate):
+                print("Student musi posiadać 18 lat!")
+
+            return False
 
     def change_a_semester(self, mode: str) -> None:
         if mode.lower() == 'high':
@@ -25,45 +58,13 @@ class Student:
 
 student_dict = {}
 
-def date_valid(date: str) -> bool:
-    try:
-        datetime_get = datetime.strptime(date, '%d.%m.%Y')
-        actual_date = datetime.now()
-        age = actual_date.year - datetime_get.year - \
-              ((actual_date.month, actual_date.day) <
-               (datetime_get.month, datetime_get.day))
-
-        if age >= 18 and datetime_get:
-            return True
-    except ValueError:
-        return False
-
-def data_correctness(first_name, last_name, birthdate) -> bool:
-
-    if first_name.istitle() and last_name.istitle() and date_valid(birthdate):
-        return True
-
-    else:
-        if not first_name.istitle():
-            print("Imię studenta jest błędne!\n"
-                  "Wzór:[Patryk / Patryk-Łukasz]")
-
-        if not last_name.istitle():
-            print("Nazwisko studenta jest błędne!\n"
-                  "Wzór[Kowalski/ Kowalski-Malinowski}")
-
-        if not date_valid(birthdate):
-            print("Student musi posiadać 18 lat!")
-
-        return False
-
 index = 0
 def student_add() -> int:
     new_student_first_name = input("Podaj imię(imiona): ")
     new_student_last_name = input("Podaj nazwisko: ")
     new_student_birthdate = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
 
-    if data_correctness(new_student_first_name,
+    if Student.data_correctness(new_student_first_name,
                         new_student_last_name,
                         new_student_birthdate):
         global index
