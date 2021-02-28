@@ -1,5 +1,9 @@
 from datetime import datetime
 from math import ceil
+import logging
+
+logging.basicConfig(filename="logging.log", level=logging.DEBUG,format='%(asctime)s:'
+                               '%(levelname)s:%(message)s')
 
 class Student:
     def __init__(self, first_name: str, last_name: str, birthdate: str) -> None:
@@ -19,7 +23,7 @@ class Student:
                   ((actual_date.month, actual_date.day) <
                    (datetime_get.month, datetime_get.day))
 
-            if age >= 18 and datetime_get:
+            if 18 <= age <= 25 and datetime_get:
                 return True
         except ValueError:
             return False
@@ -56,6 +60,9 @@ class Student:
     def __str__(self) -> str:
         return f"Imię:{self.first_name}, Nazwisko:{self.last_name}, Data Urodzenia:{self.birthdate}"
 
+index = 0
+student_dict = {}
+
 def general() -> bool:
     general_question = input("1.Klasy\n"
                              "2.Studenci\n"
@@ -76,53 +83,44 @@ def general() -> bool:
         general()
 
 def menu() -> None:
-    student_operation = input("1.Lista studentów\n"
-                              "2.Dodaj studenta\n"
-                              "3.Usuń studenta\n"
-                              "4.Edytuj studenta\n"
-                              "5.Wyświetl oceny\n"
-                              "6.Dodaj oceny\n"
-                              "7.Edytuj oceny\n"
-                              "8.Wróć\n"
-                              "Wybierz numer operacji spośród podanych: ")
+    student_operation = input(
+'''1.Lista studentów
+2.Dodaj studenta
+3.Usuń studenta
+4.Edytuj studenta
+5.Wyświetl oceny
+6.Dodaj oceny
+7.Edytuj oceny
+8.Wróć
+Wybierz numer operacji spośród podanych: '''
+    )
 
-    if student_operation.lower() == "1":
-        if len(student_dict) >= 1:
-            display_student_dict()
+    menu_dict = {'1': ("Wyświetlanie listy", display_student_dict),
+                 '2': ("Dodawanie studenta", student_add),
+                 '3': ("Usuwanie studenta", student_delete),
+                 '4': ("Edycja studenta",student_edit), # TODO: EDYTUJ DANE STUDENTA
+                 '5': ("Wyświetlanie ocen", display_student_note), # TODO: WYŚWIETLANIE OCEN
+                 '6': ("Dodawanie ocen", student_note_add), # TODO: DODAWANIE OCEN
+                 '7': ("Edycja ocen", student_note_edit), # TODO: EDYCJA OCEN
+                 '8': ("Powrót",general),
+                 'default': ("Wybierz operację z listy!", False)}
 
-        else:
-            print("Na liście nie ma żadnego studenta")
-            menu()
+    result, chosen_func = menu_dict.get(student_operation, menu_dict["default"])
+    if not chosen_func:
+        print(result)
+        return
 
-    elif student_operation.lower() == "2":
-        student_add()
+    print(f"Wybrałeś {result}")
 
-    elif student_operation.lower() == "3":
-        student_delete()
+    try:
+        chosen_func()
+    except Exception as ex:
+        print("Wystąpił nieznany błąd")
+        logging.debug(ex)
 
-    elif student_operation.lower() == "4":
-        student_edit() # TODO: EDYTUJ DANE STUDENTA
 
-    elif student_operation.lower() == "5":
-        display_student_note() # TODO: WYŚWIETLANIE OCEN
-
-    elif student_operation.lower() == "6":
-        student_note_add() # TODO: DODAWANIE OCEN
-
-    elif student_operation.lower() == "7":
-        student_note_edit() # TODO: EDYCJA OCEN
-
-    elif student_operation.lower() == "8":
-        general()
-
-    else:
-        print("Wybierz operację z listy!")
-        menu()
-
-student_dict = {}
-
-index = 0
-def student_add() -> int:
+# TODO: DEKORATOR INDEX
+def student_add() -> None:
     new_student_first_name = input("Podaj imię(imiona): ")
     new_student_last_name = input("Podaj nazwisko: ")
     new_student_birthdate = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
@@ -139,7 +137,6 @@ def student_add() -> int:
         student_dict[index] = student
 
         print("Pomyślnie dodano nowego studenta.")
-        return index
     else:
         print("Nie udało się stworzyć studenta!")
 
@@ -161,13 +158,22 @@ def student_note_add() -> None:
 def student_note_edit() -> None:
     pass
 
+def student_dict_validate() -> bool:
+    if len(student_dict) >= 1:
+        return True
+    else:
+        return False
+
 def display_student_dict() -> None:
-    student_dict_formatted = {k: str(v) for k, v in student_dict.items()}
+    if student_dict_validate():
+        student_dict_formatted = {k: str(v) for k, v in student_dict.items()}
 
-    if student_dict_formatted:
-        print("Oto lista studentów:")
-        for k, v in student_dict_formatted.items():
-            print(f"{k}.{v}")
+        if student_dict_formatted:
+            print("Oto lista studentów:")
+            for k, v in student_dict_formatted.items():
+                print(f"{k}.{v}")
+    else:
+        print("Na liście nie ma żadnego studenta!")
 
-def display_student_note():
+def display_student_note() -> None:
     pass
