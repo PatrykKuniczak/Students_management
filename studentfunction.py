@@ -1,6 +1,6 @@
+import re, logging
 from datetime import datetime
 from math import ceil
-import logging
 
 logging.basicConfig(filename="logging.log", level=logging.DEBUG,format='%(asctime)s:'
                                '%(levelname)s:%(message)s')
@@ -31,15 +31,15 @@ class Student:
     @classmethod
     def data_correctness(cls, first_name, last_name, birthdate) -> bool:
 
-        if first_name.istitle() and last_name.istitle() and cls.date_valid(birthdate):
+        if re.match(r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", first_name) and re.match(r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", last_name) and cls.date_valid(birthdate):
             return True
 
         else:
-            if not first_name.istitle():
+            if not re.match(r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", first_name):
                 print("Imię studenta jest błędne!\n"
                       "Wzór:[Patryk / Patryk-Łukasz]")
 
-            if not last_name.istitle():
+            if not re.match(r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", last_name):
                 print("Nazwisko studenta jest błędne!\n"
                       "Wzór[Kowalski/ Kowalski-Malinowski}")
 
@@ -53,6 +53,8 @@ class Student:
             self.semester += 1
         elif mode.lower() == 'low':
             self.semester -= 1
+        else:
+            print("Wy")
 
     def get_year(self) -> int:
         return ceil(self.semester / 2)
