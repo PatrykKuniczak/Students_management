@@ -1,11 +1,11 @@
 from studentfunction import general
 
-# TODO: ZRÓB DEKORATOR KTÓRY OTWIERA I ZAMYKA JSONA
+
+# TODO: ZRÓB DEKORATOR KTÓRY OTWIERA I ZAMYKA JSON
 def main() -> None:
     while True:
-        generalfunc = general()
-        if not generalfunc:
-            break
+        general()
+
 
 if __name__ == '__main__':
     main()
