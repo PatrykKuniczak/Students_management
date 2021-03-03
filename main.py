@@ -6,31 +6,32 @@ basicConfig(filename="logging.log", level=DEBUG, format='%(asctime)s:%(levelname
 
 # TODO: ZRÓB DEKORATOR KTÓRY OTWIERA I ZAMYKA JSON
 def main() -> None:
-    while True:
+    var = True
+    while var:
         general_question = input("1.Klasy\n"
                                  "2.Studenci\n"  # TODO: STWÓRZ KLASĘ 'CLASS'
-                                 "3.Zakończ program\n"
+                                 "3.Zakończ program\n\n"
                                  "Wybierz numer operacji spośród podanych: ")
-
+        print()
         general_dict = {"1": ("Klasa", None), "2": ("Student", menu)}
 
         try:
             if 0 < int(general_question) <= 2:
                 general_result, general_chosen_func = general_dict.get(general_question)
-                print(f"Wybrałeś '{general_result}'")
+                print(f"Wybrałeś '{general_result}'\n")
                 try:
                     general_chosen_func()
                 except Exception as g_ex:
-                    print("Wystąpił nieznany błąd")
+                    print("Wystąpił nieznany błąd!\n")
                     debug(g_ex)
 
             elif int(general_question) == 3:
                 print("Do widzenia!")
-                break
+                var = False
             else:
-                print("Wybierz numer operacji z listy!")
+                print("Wybierz numer operacji z listy!\n")
         except ValueError:
-            print("Wpisz poprawny numer operacji!")
+            print("Wpisz poprawny numer operacji!\n")
 
 
 if __name__ == '__main__':

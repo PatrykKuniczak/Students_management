@@ -21,3 +21,9 @@
 2021-03-03 22:28:18,578:DEBUG:'bool' object is not callable
 2021-03-03 23:14:22,541:DEBUG:'NoneType' object is not callable
 2021-03-03 23:38:47,432:DEBUG:'NoneType' object is not callable
+2021-03-03 23:58:09,554:DEBUG:'bool' object is not callable
+2021-03-03 23:58:17,599:DEBUG:'bool' object is not callable
+2021-03-03 23:58:18,858:DEBUG:'bool' object is not callable
+2021-03-03 23:58:19,623:DEBUG:'bool' object is not callable
+2021-03-04 00:14:16,136:DEBUG:'NoneType' object is not callable
+2021-03-04 00:14:31,968:DEBUG:'NoneType' object is not callable

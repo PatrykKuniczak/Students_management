@@ -19,7 +19,7 @@ class Student:
         if first_name.istitle() and 19 >= len(first_name) > 1:
             return True
         else:
-            print("Imię(Imiona) studenta jest/są błędne!\n"
+            print("\nImię(Imiona) studenta jest/są nieprawidłowe!\n"
                   "Wzór:[Patryk / Patryk-Łukasz]")
             return False
 
@@ -28,8 +28,8 @@ class Student:
         if surname.istitle() and 30 >= len(surname) > 1:
             return True
         else:
-            print("Nazwisko(Nazwiska) studenta jest/są błędne!\n"
-                  "Wzór[Kowalski/ Kowalski-Malinowski}")
+            print("\nNazwisko(Nazwiska) studenta jest/są nieprawidłowe!\n"
+                  "Wzór:[Kowalski/ Kowalski-Malinowski}")
             return False
 
     @classmethod
@@ -44,10 +44,10 @@ class Student:
             if 18 <= age <= 25:
                 return True
             else:
-                print("Student musi posiadać 18 lat!")
+                print("\nStudent musi posiadać 18 lat!")
                 return False
         except ValueError:
-            print("Wpisana data jest niepoprawna wzór:[dd-mm=yyyy]!")
+            print("\nWpisana data jest niepoprawna Wzór:[dd-mm=yyyy]!")
             return False
 
     @classmethod
@@ -80,10 +80,10 @@ index = 0
 student_dict = {}
 
 
-def menu() -> None:
-    while True:
-        student_operation = input(
-            '''1.Lista studentów
+def menu() -> bool:
+
+    student_operation = input(
+        '''1.Lista studentów
 2.Dodaj studenta
 3.Usuń studenta
 4.Edytuj studenta
@@ -91,37 +91,35 @@ def menu() -> None:
 6.Dodaj oceny
 7.Edytuj oceny
 8.Wróć
+
 Wybierz numer operacji spośród podanych: '''
-        )
-        try:
-            if 0 < int(student_operation) <= 8:
-                menu_dict = {'1': ("Wyświetlanie listy", display_student_dict),
-                             '2': ("Dodawanie studenta", student_add),
-                             '3': ("Usuwanie studenta", student_delete),
-                             '4': ("Edycja studenta", student_edit),  # TODO: EDYTUJ DANE STUDENTA
-                             '5': ("Wyświetlanie ocen", display_student_note),  # TODO: WYŚWIETLANIE OCEN
-                             '6': ("Dodawanie ocen", student_note_add),  # TODO: DODAWANIE OCEN
-                             '7': ("Edycja ocen", student_note_edit),  # TODO: EDYCJA OCEN
-                             '8': ("Powrót", False)}
+    )
+    try:
+        if 0 < int(student_operation) <= 8:
+            menu_dict = {'1': ("Wyświetlanie listy", display_student_dict),
+                         '2': ("Dodawanie studenta", student_add),
+                         '3': ("Usuwanie studenta", student_delete),
+                         '4': ("Edycja studenta", student_edit),  # TODO: EDYTUJ DANE STUDENTA
+                         '5': ("Wyświetlanie ocen", display_student_note),  # TODO: WYŚWIETLANIE OCEN
+                         '6': ("Dodawanie ocen", student_note_add),  # TODO: DODAWANIE OCEN
+                         '7': ("Edycja ocen", student_note_edit),  # TODO: EDYCJA OCEN
+                         '8': ("Powrót", False)}
 
-                menu_result, menu_chosen_func = menu_dict.get(student_operation)
+            menu_result, menu_chosen_func = menu_dict.get(student_operation)
 
-                if not menu_chosen_func:
-                    print(f"Wybrałeś '{menu_result}'")
-                    return
-
-                print(f"Wybrałeś '{menu_result}'")
-
-                try:
-                    menu_chosen_func()
-                except Exception as m_ex:
-                    print("Wystąpił nieznany błąd")
-                    debug(m_ex)
-            else:
-                print("Wybierz numer operacji z listy!")
-        except ValueError:
-            print("Wybierz prawidłową operację!")
-
+            if not menu_chosen_func:
+                print(f"\nWybrałeś '{menu_result}'\n")
+                return False
+            try:
+                print(f"\nWybrałeś '{menu_result}'\n")
+                menu_chosen_func()
+            except Exception as m_ex:
+                print("Wystąpił nieznany błąd")
+                debug(m_ex)
+        else:
+            print("\nWybierz numer operacji z listy!")
+    except ValueError:
+        print("\nWybierz prawidłową operację!")
 
 
 # TODO: DEKORATOR INDEX
@@ -141,16 +139,19 @@ def student_add() -> None:
 
         student_dict[index] = student
 
-        print("Pomyślnie dodano nowego studenta.")
+        print("\nPomyślnie dodano nowego studenta.\n")
     else:
-        print("Nie udało się stworzyć studenta!")
+        print("\nNie udało się stworzyć studenta!\n")
 
 
 def student_delete() -> None:
     try:
         student_del = int(input("Podaj numer studenta,którego chcesz usunąć: "))
+        print()
         if student_del in student_dict.keys():
             student_dict.pop(student_del)
+        else:
+            print("Student o podanym numerze nie istnieje!\n")
 
     except ValueError:
         print("Wpisałeś błędną wartość,wpisz numer studenta z listy")
@@ -183,8 +184,9 @@ def display_student_dict() -> None:
             print("Oto lista studentów:")
             for k, v in student_dict_formatted.items():
                 print(f"{k}.{v}")
+            print()
     else:
-        print("Na liście nie ma żadnego studenta!")
+        print("Na liście nie ma żadnego studenta!\n")
         menu()
 
 
