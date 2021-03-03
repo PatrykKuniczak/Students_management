@@ -1,9 +1,9 @@
-import re, logging
+from logging import debug, basicConfig, DEBUG
 from datetime import datetime
 from math import ceil
 
-logging.basicConfig(filename="logging.log", level=logging.DEBUG, format='%(asctime)s:'
-                                                                        '%(levelname)s:%(message)s')
+basicConfig(filename="logging.log", level=DEBUG, format='%(asctime)s:'
+                                                        '%(levelname)s:%(message)s')
 
 
 class Student:
@@ -16,6 +16,24 @@ class Student:
         self.student_data_list = []
 
     @classmethod
+    def first_name_valid(cls, first_name):
+        if first_name.istitle() and 19 >= len(first_name) > 1:
+            return True
+        else:
+            print("Imię(Imiona) studenta jest/są błędne!\n"
+                  "Wzór:[Patryk / Patryk-Łukasz]")
+            return False
+
+    @classmethod
+    def surname_valid(cls, surname):
+        if surname.istitle() and 30 >= len(surname) > 1:
+            return True
+        else:
+            print("Nazwisko(Nazwiska) studenta jest/są błędne!\n"
+                  "Wzór[Kowalski/ Kowalski-Malinowski}")
+            return False
+
+    @classmethod
     def date_valid(cls, date: str) -> bool:
         try:
             datetime_get = datetime.strptime(date, '%d.%m.%Y')
@@ -24,31 +42,24 @@ class Student:
                   ((actual_date.month, actual_date.day) <
                    (datetime_get.month, datetime_get.day))
 
-            if 18 <= age <= 25 and datetime_get:
+            if 18 <= age <= 25:
                 return True
+            else:
+                print("Student musi posiadać 18 lat!")
+                return False
         except ValueError:
+            print("Wpisana data jest niepoprawna wzór:[dd-mm=yyyy]!")
             return False
 
-    # TODO: DO NAPRAWIENIA TE REGEX
     @classmethod
     def data_correctness(cls, first_name, surname, birthdate) -> bool:
+        first_name_valid = cls.first_name_valid(first_name)
+        surname_valid = cls.surname_valid(surname)
+        date_valid = cls.date_valid(birthdate)
 
-        if re.match(r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", first_name) and re.match(
-                r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", surname) and cls.date_valid(birthdate):
+        if first_name_valid and surname_valid and date_valid:
             return True
-
         else:
-            if not re.match(r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", first_name):
-                print("Imię studenta jest błędne!\n"
-                      "Wzór:[Patryk / Patryk-Łukasz]")
-
-            if not re.match(r"^[A-Z][a-z]{1,19}|[A-Z]\s[a-z]{1,19}$", surname):
-                print("Nazwisko studenta jest błędne!\n"
-                      "Wzór[Kowalski/ Kowalski-Malinowski}")
-
-            if not cls.date_valid(birthdate):
-                print("Student musi posiadać 18 lat!")
-
             return False
 
     def change_a_semester(self, mode: str) -> str:
@@ -90,7 +101,7 @@ def general() -> None:
 
     except Exception as g_ex:
         print("Wystąpił nieznany błąd")
-        logging.debug(g_ex)
+        debug(g_ex)
 
 
 def menu() -> None:
@@ -128,13 +139,13 @@ Wybierz numer operacji spośród podanych: '''
         menu_chosen_func()
     except Exception as m_ex:
         print("Wystąpił nieznany błąd")
-        logging.debug(m_ex)
+        debug(m_ex)
 
 
 # TODO: DEKORATOR INDEX
 def student_add() -> None:
     new_student_first_name = input("Podaj imię(imiona): ")
-    new_student_surname = input("Podaj nazwisko: ")
+    new_student_surname = input("Podaj nazwisko(nazwiska): ")
     new_student_birthdate = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
 
     if Student.data_correctness(new_student_first_name,
