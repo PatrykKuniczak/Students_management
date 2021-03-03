@@ -2,8 +2,7 @@ from logging import debug, basicConfig, DEBUG
 from datetime import datetime
 from math import ceil
 
-basicConfig(filename="logging.log", level=DEBUG, format='%(asctime)s:'
-                                                        '%(levelname)s:%(message)s')
+basicConfig(filename="logging.log", level=DEBUG, format='%(asctime)s:%(levelname)s:%(message)s')
 
 
 class Student:
@@ -81,32 +80,10 @@ index = 0
 student_dict = {}
 
 
-def general() -> None:
-    general_question = input("1.Klasy\n"
-                             "2.Studenci\n"
-                             "3.Zakończ program\n"
-                             "Wybierz numer operacji spośród podanych: ")
-
-    general_dict = {"1": ("Klasa", None), "2": ("Student", menu), "3": ("Wyjście", False),  # TODO:NAPRAW WYCHODZENIE
-                    'default': ("Wybierz operację z listy!", False)}
-
-    # TODO: STWÓRZ KLASĘ 'CLASS'
-
-    general_result, general_chosen_func = general_dict.get(general_question, general_dict["default"])
-
-    print(f"Wybrałeś {general_result}")
-
-    try:
-        general_chosen_func()
-
-    except Exception as g_ex:
-        print("Wystąpił nieznany błąd")
-        debug(g_ex)
-
-
 def menu() -> None:
-    student_operation = input(
-        '''1.Lista studentów
+    while True:
+        student_operation = input(
+            '''1.Lista studentów
 2.Dodaj studenta
 3.Usuń studenta
 4.Edytuj studenta
@@ -115,31 +92,36 @@ def menu() -> None:
 7.Edytuj oceny
 8.Wróć
 Wybierz numer operacji spośród podanych: '''
-    )
+        )
+        try:
+            if 0 < int(student_operation) <= 8:
+                menu_dict = {'1': ("Wyświetlanie listy", display_student_dict),
+                             '2': ("Dodawanie studenta", student_add),
+                             '3': ("Usuwanie studenta", student_delete),
+                             '4': ("Edycja studenta", student_edit),  # TODO: EDYTUJ DANE STUDENTA
+                             '5': ("Wyświetlanie ocen", display_student_note),  # TODO: WYŚWIETLANIE OCEN
+                             '6': ("Dodawanie ocen", student_note_add),  # TODO: DODAWANIE OCEN
+                             '7': ("Edycja ocen", student_note_edit),  # TODO: EDYCJA OCEN
+                             '8': ("Powrót", False)}
 
-    menu_dict = {'1': ("Wyświetlanie listy", display_student_dict),
-                 '2': ("Dodawanie studenta", student_add),
-                 '3': ("Usuwanie studenta", student_delete),
-                 '4': ("Edycja studenta", student_edit),  # TODO: EDYTUJ DANE STUDENTA
-                 '5': ("Wyświetlanie ocen", display_student_note),  # TODO: WYŚWIETLANIE OCEN
-                 '6': ("Dodawanie ocen", student_note_add),  # TODO: DODAWANIE OCEN
-                 '7': ("Edycja ocen", student_note_edit),  # TODO: EDYCJA OCEN
-                 '8': ("Powrót", general),
-                 'default': ("Wybierz operację z listy!", False)}
+                menu_result, menu_chosen_func = menu_dict.get(student_operation)
 
-    menu_result, menu_chosen_func = menu_dict.get(student_operation, menu_dict["default"])
+                if not menu_chosen_func:
+                    print(f"Wybrałeś '{menu_result}'")
+                    return
 
-    if not menu_chosen_func:
-        print(menu_result)
-        menu()
+                print(f"Wybrałeś '{menu_result}'")
 
-    print(f"Wybrałeś {menu_result}")
+                try:
+                    menu_chosen_func()
+                except Exception as m_ex:
+                    print("Wystąpił nieznany błąd")
+                    debug(m_ex)
+            else:
+                print("Wybierz numer operacji z listy!")
+        except ValueError:
+            print("Wybierz prawidłową operację!")
 
-    try:
-        menu_chosen_func()
-    except Exception as m_ex:
-        print("Wystąpił nieznany błąd")
-        debug(m_ex)
 
 
 # TODO: DEKORATOR INDEX
