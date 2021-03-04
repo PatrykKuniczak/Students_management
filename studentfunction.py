@@ -80,10 +80,11 @@ index = 0
 student_dict = {}
 
 
-def menu() -> bool:
-
-    student_operation = input(
-        '''1.Lista studentów
+def menu() -> None:
+    loop2 = True
+    while loop2:
+        student_operation = input(
+            '''1.Lista studentów
 2.Dodaj studenta
 3.Usuń studenta
 4.Edytuj studenta
@@ -93,33 +94,34 @@ def menu() -> bool:
 8.Wróć
 
 Wybierz numer operacji spośród podanych: '''
-    )
-    try:
-        if 0 < int(student_operation) <= 8:
-            menu_dict = {'1': ("Wyświetlanie listy", display_student_dict),
-                         '2': ("Dodawanie studenta", student_add),
-                         '3': ("Usuwanie studenta", student_delete),
-                         '4': ("Edycja studenta", student_edit),  # TODO: EDYTUJ DANE STUDENTA
-                         '5': ("Wyświetlanie ocen", display_student_note),  # TODO: WYŚWIETLANIE OCEN
-                         '6': ("Dodawanie ocen", student_note_add),  # TODO: DODAWANIE OCEN
-                         '7': ("Edycja ocen", student_note_edit),  # TODO: EDYCJA OCEN
-                         '8': ("Powrót", False)}
+        )
+        try:
+            if 0 < int(student_operation) <= 7:
+                menu_dict = {'1': ("Wyświetlanie listy", display_student_dict),
+                             '2': ("Dodawanie studenta", student_add),
+                             '3': ("Usuwanie studenta", student_delete),
+                             '4': ("Edycja studenta", student_edit),  # TODO: EDYTUJ DANE STUDENTA
+                             '5': ("Wyświetlanie ocen", display_student_note),  # TODO: WYŚWIETLANIE OCEN
+                             '6': ("Dodawanie ocen", student_note_add),  # TODO: DODAWANIE OCEN
+                             '7': ("Edycja ocen", student_note_edit)}  # TODO: EDYCJA OCEN
 
-            menu_result, menu_chosen_func = menu_dict.get(student_operation)
+                menu_result, menu_chosen_func = menu_dict.get(student_operation)
+                try:
+                    print(f"\nWybrałeś '{menu_result}'\n")
+                    menu_chosen_func()
 
-            if not menu_chosen_func:
-                print(f"\nWybrałeś '{menu_result}'\n")
-                return False
-            try:
-                print(f"\nWybrałeś '{menu_result}'\n")
-                menu_chosen_func()
-            except Exception as m_ex:
-                print("Wystąpił nieznany błąd")
-                debug(m_ex)
-        else:
-            print("\nWybierz numer operacji z listy!")
-    except ValueError:
-        print("\nWybierz prawidłową operację!")
+                except Exception as m_ex:
+                    print("Wystąpił nieznany błąd")
+                    debug(m_ex)
+
+            elif int(student_operation) == 8:
+                loop2 = False
+
+            else:
+                print("\nWybierz numer operacji z listy!")
+
+        except ValueError:
+            print("\nWybierz prawidłową operację!")
 
 
 # TODO: DEKORATOR INDEX

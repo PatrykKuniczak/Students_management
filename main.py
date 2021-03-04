@@ -6,8 +6,8 @@ basicConfig(filename="logging.log", level=DEBUG, format='%(asctime)s:%(levelname
 
 # TODO: ZRÓB DEKORATOR KTÓRY OTWIERA I ZAMYKA JSON
 def main() -> None:
-    var = True
-    while var:
+    loop = True
+    while loop:
         general_question = input("1.Klasy\n"
                                  "2.Studenci\n"  # TODO: STWÓRZ KLASĘ 'CLASS'
                                  "3.Zakończ program\n\n"
@@ -27,7 +27,7 @@ def main() -> None:
 
             elif int(general_question) == 3:
                 print("Do widzenia!")
-                var = False
+                loop = False
             else:
                 print("Wybierz numer operacji z listy!\n")
         except ValueError:
