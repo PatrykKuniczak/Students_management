@@ -1,18 +1,17 @@
+from math import ceil
 from logging import debug, basicConfig, DEBUG
 from datetime import datetime
-from math import ceil
 
 basicConfig(filename="logging.log", level=DEBUG, format='%(asctime)s:%(levelname)s:%(message)s')
 
 
 class Student:
-    def __init__(self, first_name: str, surname: str, birthdate: str) -> None:
+
+    def __init__(self, first_name: str, surname: str, birthdate: str, semester) -> None:
         self.birthdate = birthdate
         self.first_name = first_name
         self.surname = surname
-
-        self.semester = 1
-        self.student_data_list = []
+        self.semester = semester
 
     @classmethod
     def first_name_valid(cls, first_name):
@@ -51,12 +50,22 @@ class Student:
             return False
 
     @classmethod
-    def data_correctness(cls, first_name, surname, birthdate) -> bool:
+    def semester_valid(cls, semester):
+        semester = int(semester)
+        if 0 <= semester <= 12:
+            return True
+        else:
+            print("\nLiczba semestru jest nieprawidłowa,wpisz liczbę z przedziału [1-12]")
+            return False
+
+    @classmethod
+    def data_correctness(cls, first_name, surname, birthdate, semester) -> bool:
         first_name_valid = cls.first_name_valid(first_name)
         surname_valid = cls.surname_valid(surname)
         date_valid = cls.date_valid(birthdate)
+        semester = cls.semester_valid(semester)
 
-        if first_name_valid and surname_valid and date_valid:
+        if first_name_valid and surname_valid and date_valid and semester:
             return True
         else:
             return False
@@ -73,7 +82,8 @@ class Student:
         return ceil(self.semester / 2)
 
     def __str__(self) -> str:
-        return f"Imię:{self.first_name}, Nazwisko:{self.surname}, Data Urodzenia:{self.birthdate}"
+        return f"Imię:{self.first_name}, Nazwisko:{self.surname}, Data Urodzenia:{self.birthdate}, " \
+               f"Semestr:{self.semester}"
 
 
 index = 0
@@ -129,15 +139,18 @@ def student_add() -> None:
     new_student_first_name = input("Podaj imię(imiona): ")
     new_student_surname = input("Podaj nazwisko(nazwiska): ")
     new_student_birthdate = input("Podaj datę urodzenia[dd.mm.yyyy]: ")
+    new_student_semester = input("Podaj obecny semestr: ")
 
     if Student.data_correctness(new_student_first_name,
                                 new_student_surname,
-                                new_student_birthdate):
+                                new_student_birthdate,
+                                new_student_semester):
         global index
         index += 1
         student = Student(new_student_first_name,
                           new_student_surname,
-                          new_student_birthdate)
+                          new_student_birthdate,
+                          int(new_student_semester))
 
         student_dict[index] = student
 
@@ -186,7 +199,7 @@ def display_student_dict() -> None:
             print("Oto lista studentów:")
             for k, v in student_dict_formatted.items():
                 print(f"{k}.{v}")
-            print()
+
     else:
         print("Na liście nie ma żadnego studenta!\n")
         menu()

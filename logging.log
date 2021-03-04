@@ -30,3 +30,6 @@
 2021-03-04 01:32:00,203:DEBUG:cannot unpack non-iterable NoneType object
 2021-03-04 01:50:42,744:DEBUG:'bool' object is not callable
 2021-03-04 15:13:11,884:DEBUG:local variable 'loop2' referenced before assignment
+2021-03-04 18:45:05,551:DEBUG:0
+2021-03-04 18:52:07,191:DEBUG:0
+2021-03-04 19:04:43,685:DEBUG:'int' object is not iterable

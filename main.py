@@ -13,7 +13,7 @@ def main() -> None:
                                  "3.Zakończ program\n\n"
                                  "Wybierz numer operacji spośród podanych: ")
         print()
-        general_dict = {"1": ("Klasa", None), "2": ("Student", menu)}
+        general_dict = {"1": ("Klasy", None), "2": ("Studenci", menu)}
 
         try:
             if 0 < int(general_question) <= 2:
